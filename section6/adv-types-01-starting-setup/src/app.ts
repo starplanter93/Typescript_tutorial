@@ -22,6 +22,15 @@ type Numeric = number | boolean;
 
 type Universal = Combinable & Numeric;
 
+// 함수 오버로드
+// add함수의 return타입은 string도 아니고 number도 아닌 Combinable이기 때문에,
+// string을 인자에 넣었다고 해서 return값으로 string관련 메서드를 사용할 수 없음.
+// as를 사용해서 형변환으로 처리해도 괜찮음.
+// 그러나 함수오버로드를 사용해서 처리할 수도 있음
+function add(a: number, b: number): number;
+function add(a: string, b: string): string;
+function add(a: number, b: string): string;
+function add(a: string, b: number): string;
 function add(a: Combinable, b: Combinable) {
   if (typeof a === "string" || typeof b === "string") {
     return a.toString() + b.toString();
@@ -29,89 +38,92 @@ function add(a: Combinable, b: Combinable) {
   return a + b;
 }
 
-type UnknownEmployee = Employee | Admin;
+const result = add("jks", "jkh");
+result.split(" ");
 
-function printEmployeeInformation(emp: UnknownEmployee) {
-  console.log("Name: " + emp.name);
-  if ("privileges" in emp) {
-    console.log("Privileges: " + emp.privileges);
-  }
-  if ("startDate" in emp) {
-    console.log("StateDate: " + emp.startDate);
-  }
-}
+// type UnknownEmployee = Employee | Admin;
 
-printEmployeeInformation({ name: "Manu", startDate: new Date() });
+// function printEmployeeInformation(emp: UnknownEmployee) {
+//   console.log("Name: " + emp.name);
+//   if ("privileges" in emp) {
+//     console.log("Privileges: " + emp.privileges);
+//   }
+//   if ("startDate" in emp) {
+//     console.log("StateDate: " + emp.startDate);
+//   }
+// }
 
-class Car {
-  drive() {
-    console.log("Driving...");
-  }
-}
+// printEmployeeInformation({ name: "Manu", startDate: new Date() });
 
-class Truck {
-  drive() {
-    console.log("Driving a truck...");
-  }
+// class Car {
+//   drive() {
+//     console.log("Driving...");
+//   }
+// }
 
-  loadCargo(amount: number) {
-    console.log("Loading cargo..." + amount);
-  }
-}
+// class Truck {
+//   drive() {
+//     console.log("Driving a truck...");
+//   }
 
-type Vehicle = Car | Truck;
+//   loadCargo(amount: number) {
+//     console.log("Loading cargo..." + amount);
+//   }
+// }
 
-const v1 = new Car();
-const v2 = new Truck();
+// type Vehicle = Car | Truck;
 
-function useVehicle(vehicle: Vehicle) {
-  vehicle.drive();
-  if (vehicle instanceof Truck) {
-    vehicle.loadCargo(1000);
-  }
-}
+// const v1 = new Car();
+// const v2 = new Truck();
 
-useVehicle(v1);
-useVehicle(v2);
+// function useVehicle(vehicle: Vehicle) {
+//   vehicle.drive();
+//   if (vehicle instanceof Truck) {
+//     vehicle.loadCargo(1000);
+//   }
+// }
 
-interface Bird {
-  type: "bird";
-  flyingSpeed: number;
-}
+// useVehicle(v1);
+// useVehicle(v2);
 
-interface Horse {
-  type: "horse";
-  runningSpeed: number;
-}
+// interface Bird {
+//   type: "bird";
+//   flyingSpeed: number;
+// }
 
-type Animal = Bird | Horse;
+// interface Horse {
+//   type: "horse";
+//   runningSpeed: number;
+// }
 
-function moveAnimal(animal: Animal) {
-  let speed;
-  switch (animal.type) {
-    case "bird":
-      speed = animal.flyingSpeed;
-      break;
-    case "horse":
-      speed = animal.runningSpeed;
-  }
-  console.log("Moving with speed: " + speed);
-}
+// type Animal = Bird | Horse;
 
-moveAnimal({ type: "bird", flyingSpeed: 10 });
+// function moveAnimal(animal: Animal) {
+//   let speed;
+//   switch (animal.type) {
+//     case "bird":
+//       speed = animal.flyingSpeed;
+//       break;
+//     case "horse":
+//       speed = animal.runningSpeed;
+//   }
+//   console.log("Moving with speed: " + speed);
+// }
 
-const userInputElement = document.getElementById("user-input");
-if (userInputElement) {
-  (userInputElement as HTMLInputElement).value = "Hi there!";
-}
+// moveAnimal({ type: "bird", flyingSpeed: 10 });
 
-// 인덱스 타입은 객체가 지닐 수 있는 속성에 대해 보다 유연한 객체를 생성할 수 있게 해준다.
-// 아래처럼 객체의 키와 벨류에 들어갈 타입만 지정해두면 얼마든지 타입에 맞는 속성들을 추가해도된다.
-interface ErrorContainer {
-  [prop: string]: string;
-}
+// const userInputElement = document.getElementById("user-input");
+// if (userInputElement) {
+//   (userInputElement as HTMLInputElement).value = "Hi there!";
+// }
 
-const errorBag: ErrorContainer = {
-  email: "유효한 이메일이 아닙니다.",
-  username: "문자로 시작해야합니다.",
-};
+// // 인덱스 타입은 객체가 지닐 수 있는 속성에 대해 보다 유연한 객체를 생성할 수 있게 해준다.
+// // 아래처럼 객체의 키와 벨류에 들어갈 타입만 지정해두면 얼마든지 타입에 맞는 속성들을 추가해도된다.
+// interface ErrorContainer {
+//   [prop: string]: string;
+// }
+
+// const errorBag: ErrorContainer = {
+//   email: "유효한 이메일이 아닙니다.",
+//   username: "문자로 시작해야합니다.",
+// };
