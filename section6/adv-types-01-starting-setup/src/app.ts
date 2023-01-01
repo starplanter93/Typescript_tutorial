@@ -52,6 +52,14 @@ const fetchedUserData = {
 // ? 앞의 요소가 정의되지 않았다면 그 이후에 오는 요소에는 접근하지 않는다.
 console.log(fetchedUserData?.job?.title);
 
+// null 병합 연산자
+// falsy 한 값들 중에서 null이나 undefined만 걸러내주는 연산자이다.
+const userInput = "";
+
+const storedData = userInput ?? "Default";
+
+console.log(storedData); // ''
+
 // type UnknownEmployee = Employee | Admin;
 
 // function printEmployeeInformation(emp: UnknownEmployee) {
