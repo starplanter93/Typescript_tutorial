@@ -1,4 +1,4 @@
-// 타입가드
+/* // 타입가드
 type Admin = {
   name: string;
   privileges: string[];
@@ -90,4 +90,4 @@ function useVehicle(vehicle: Vehicle) {
 }
 
 useVehicle(v1); // Driving...
-useVehicle(v2); // Driving a truck..., Loading cargo...1000
+useVehicle(v2); // Driving a truck..., Loading cargo...1000 */
