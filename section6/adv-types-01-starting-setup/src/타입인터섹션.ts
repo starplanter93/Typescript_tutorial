@@ -1,4 +1,4 @@
-// 인터섹션 타입
+/* // 인터섹션 타입
 // 다른 타입을 결합할 수 있음
 type Admin = {
   name: string;
@@ -28,3 +28,4 @@ type Numeric = number | boolean;
 
 // Universal 타입은 두 타입의 교집합인 number 타입이 된다.
 type Universal = Combinable & Numeric;
+ */
