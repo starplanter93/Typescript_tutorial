@@ -1,120 +1,47 @@
-function merge<T extends object, U extends object>(objA: T, objB: U) {
-  return Object.assign(objA, objB);
+// 제네릭 유틸리티 타입
+// TS에만 있는 타입.
+// 파셜 타입
+interface CourseGoal {
+  title: string;
+  description: string;
+  completeUntil: Date;
 }
 
-const mergedObj = merge({ name: "jks", hobbies: ["Sports"] }, { age: 30 });
-console.log(mergedObj);
-
-interface Lengthy {
-  length: number;
-}
-
-function countAndDescribe<T extends Lengthy>(element: T): [T, string] {
-  let descriptionText = "Got no value";
-  if (element.length === 1) {
-    descriptionText = "Got 1 element";
-  } else if (element.length > 1) {
-    descriptionText = "Got " + element.length + " elements";
-  }
-  return [element, descriptionText];
-}
-
-console.log(countAndDescribe([1, 2]));
-
-function extractAndConvert<T extends object, U extends keyof T>(
-  obj: T,
-  key: U
-) {
-  return "Value: " + obj[key];
-}
-
-extractAndConvert({ name: "jks" }, "name");
-
-// 제네릭 클래스
-// item의 타입이 명시되어있지 않아서 에러
-// class DataStorage {
-//   private data = [];
-
-//   addItem(item) {
-//     this.data.push(item);
-//   }
-
-//   removeItem(item) {
-//     this.data.splice(this.data.indexOf(item), 1);
-//   }
-
-//   getItem() {
-//     return [...this.data];
-//   }
+// 어떤 객체를 리턴하는 함수를 다음과 같이 만들 수도 있지만,
+// function createCourseGoal(title: string, description: string, date: Date) {
+//   return { title, description, completeUntil: date };
 // }
 
-class DataStorage<T> {
-  private data: T[] = [];
-
-  addItem(item: T) {
-    this.data.push(item);
-  }
-
-  removeItem(item: T) {
-    this.data.splice(this.data.indexOf(item), 1);
-  }
-
-  getItem() {
-    return [...this.data];
-  }
+// 유효성검사 등을 추가하기 위해 아래와 같이 구성할 수 있다.
+// function createCourseGoal(
+//   title: string,
+//   description: string,
+//   date: Date
+// ): CourseGoal {
+//   let courseGoal: CourseGoal = {};
+//   courseGoal.title = title;
+//   courseGoal.description = description;
+//   courseGoal.completeUntil = date;
+//   return courseGoal;
+// }
+// 하지만 당연히 `'{}' 형식에 'CourseGoal' 형식의 title, description, completeUntil 속성이 없습니다.`
+// 이런 에러가 발생하고, 이를 해결하기 위해서 Partial 타입을 써야한다.
+// 파셜 타입은 지정한 타입의 모든 속성을 선택적인 타입으로 바꿔준다.
+function createCourseGoal(
+  title: string,
+  description: string,
+  date: Date
+): CourseGoal {
+  let courseGoal: Partial<CourseGoal> = {};
+  courseGoal.title = title;
+  courseGoal.description = description;
+  courseGoal.completeUntil = date;
+  // courseGoal이 파셜타입이기 때문에 형변환으로 원래 파입으로 돌려줘야한다.
+  return courseGoal as CourseGoal;
 }
 
-// 제네릭 클래스로 클래스를 만들면 속성의 타입을 동적으로 지정해 줄 수 있다.
-const textStorage = new DataStorage<string>();
-// textStorage.addItem(10);
-// Error: 'number' 형식의 인수는 'string' 형식의 매개 변수에 할당될 수 없습니다.
-textStorage.addItem("jks");
-textStorage.addItem("jkh");
-textStorage.removeItem("jks");
-console.log(textStorage.getItem());
-
-const numberStorage = new DataStorage<number>();
-
-// 그런데 참조자료형을 이용한 작업을 할 때, 원치않은 결과가 나타날 수 있다.
-const objStorage = new DataStorage<object>();
-objStorage.addItem({ name: "jks" });
-objStorage.addItem({ name: "jkh" });
-
-objStorage.removeItem({ name: "jks" });
-console.log(objStorage.getItem()); //[{name: 'jks'}]
-// 분명히 {name: jks}객체를 지우려했는데 엉뚱한 {name: jkh} 객체가 지워졌다.
-// 객체가 참조 자료형이기 때문에, addItem으로 추가된 {name: jks}객체와
-// removeItem의 인자로 들어간 {name: jks}객체는 서로 다른 객체이다. (서로 다른 주소값을 가지기 때문)
-// 따라서 removeItem의 indexOf는 -1을 반환하게되고 removeItem메서드는 우리가 원하는 방식으로 작동하지 않는다.
-// 그러므로 if 검사를 활용해서 잘못 작동하지 않도록 제한을 걸어주고
-// 우리가 추가하고 제거하려는 객체를 변수에 할당해서 그 변수를 통해 작업하는 것이 좋다.
-class DataStorage1<T> {
-  private data: T[] = [];
-
-  addItem(item: T) {
-    this.data.push(item);
-  }
-
-  removeItem(item: T) {
-    if (this.data.indexOf(item)) {
-      return;
-    }
-    this.data.splice(this.data.indexOf(item), 1);
-  }
-
-  getItem() {
-    return [...this.data];
-  }
-}
-
-const objStorage1 = new DataStorage1<object>();
-const name1 = { name: "jks" };
-objStorage1.addItem(name1);
-objStorage1.addItem({ name: "jkh" });
-
-objStorage1.removeItem(name1);
-console.log(objStorage1.getItem());
-
-// 아니면 어차피 클래스의 메서드가 원시자료형으로만 올바르게 작동하기 때문에,
-// 아예 T를 원시자료형만 받도록 설정하는것이 좋을 수도 있다.
-// < T extends string | number | boolean >
+// Readonly타입
+// 어떤 데이터가 수정되면 안될 때 사용하는 타입.
+const names: Readonly<string[]> = ["jks", "jkh"];
+// names.push("123");
+// Error: 'readonly string[]' 형식에 'push' 속성이 없습니다.
