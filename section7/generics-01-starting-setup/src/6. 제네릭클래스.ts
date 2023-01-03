@@ -1,54 +1,4 @@
-function merge<T extends object, U extends object>(objA: T, objB: U) {
-  return Object.assign(objA, objB);
-}
-
-const mergedObj = merge({ name: "jks", hobbies: ["Sports"] }, { age: 30 });
-console.log(mergedObj);
-
-interface Lengthy {
-  length: number;
-}
-
-function countAndDescribe<T extends Lengthy>(element: T): [T, string] {
-  let descriptionText = "Got no value";
-  if (element.length === 1) {
-    descriptionText = "Got 1 element";
-  } else if (element.length > 1) {
-    descriptionText = "Got " + element.length + " elements";
-  }
-  return [element, descriptionText];
-}
-
-console.log(countAndDescribe([1, 2]));
-
-function extractAndConvert<T extends object, U extends keyof T>(
-  obj: T,
-  key: U
-) {
-  return "Value: " + obj[key];
-}
-
-extractAndConvert({ name: "jks" }, "name");
-
-// 제네릭 클래스
-// item의 타입이 명시되어있지 않아서 에러
-// class DataStorage {
-//   private data = [];
-
-//   addItem(item) {
-//     this.data.push(item);
-//   }
-
-//   removeItem(item) {
-//     this.data.splice(this.data.indexOf(item), 1);
-//   }
-
-//   getItem() {
-//     return [...this.data];
-//   }
-// }
-
-class DataStorage<T> {
+/* class DataStorage<T> {
   private data: T[] = [];
 
   addItem(item: T) {
@@ -118,3 +68,4 @@ console.log(objStorage1.getItem());
 // 아니면 어차피 클래스의 메서드가 원시자료형으로만 올바르게 작동하기 때문에,
 // 아예 T를 원시자료형만 받도록 설정하는것이 좋을 수도 있다.
 // < T extends string | number | boolean >
+ */
