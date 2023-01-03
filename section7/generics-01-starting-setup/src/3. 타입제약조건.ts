@@ -1,4 +1,4 @@
-// 타입제약조건
+/* // 타입제약조건
 // function merge<T, U>(objA: T, objB: U) {
 //   return Object.assign(objA, objB);
 // }
@@ -12,10 +12,10 @@
 // 이때 타입제약조건이 필요하다.
 // 타입제약조건은 <> 안에 extends를 통해 설정할 수 있다.
 function merge<T extends object, U extends object>(objA: T, objB: U) {
-  return Object.assign(objA, objB);
-}
-
-// const mergedObj = merge({ name: "jks", hobbies: ["Sports"] }, 30);
-// 'number' 형식의 인수는 'object' 형식의 매개 변수에 할당될 수 없습니다.
-const mergedObj = merge({ name: "jks", hobbies: ["Sports"] }, { age: 30 });
-console.log(mergedObj);
+    return Object.assign(objA, objB);
+  }
+  
+  // const mergedObj = merge({ name: "jks", hobbies: ["Sports"] }, 30);
+  // 'number' 형식의 인수는 'object' 형식의 매개 변수에 할당될 수 없습니다.
+  const mergedObj = merge({ name: "jks", hobbies: ["Sports"] }, { age: 30 });
+  console.log(mergedObj); */
