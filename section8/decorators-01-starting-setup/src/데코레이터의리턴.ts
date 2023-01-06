@@ -1,4 +1,4 @@
-// 데코레이터의 리턴값
+/* // 데코레이터의 리턴값
 function Logger(logString: string) {
   console.log("Logger Factory");
   return function (constructor: Function) {
@@ -126,3 +126,4 @@ const p = new Printer();
 
 const button = document.querySelector("button")!;
 button.addEventListener("click", p.showMessage);
+ */
