@@ -1,4 +1,4 @@
-// 더 유용한 데코레이터 만들기
+/* // 더 유용한 데코레이터 만들기
 function Logger(logString: string) {
   return function (constructor: Function) {
     console.log(logString);
@@ -40,3 +40,4 @@ class Person {
 const pers = new Person();
 
 console.log(pers);
+ */
