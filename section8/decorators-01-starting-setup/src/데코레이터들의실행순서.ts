@@ -1,4 +1,4 @@
-// 여러 데코레이터들의 실행 순서
+/* // 여러 데코레이터들의 실행 순서
 function Logger(logString: string) {
   console.log("Logger Factory");
   return function (constructor: Function) {
@@ -39,3 +39,4 @@ class Person {
 const pers = new Person();
 
 console.log(pers);
+ */
